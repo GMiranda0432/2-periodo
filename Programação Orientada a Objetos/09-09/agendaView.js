@@ -1,238 +1,419 @@
-import { ContatoController } from "./ContatoController.js";
-import { Contato } from "./Contato.js";
+import { AgendaController } from "./AgendaController.js";
 
-const inNome = document.getElementById("inNome");
-const inEndereço = document.getElementById("inEndereço");
-const inTelefone = document.getElementById("inTelefone");
-const inCpf = document.getElementById("inCpf");
-const inDtNascimento = document.getElementById("inDtNascimento");
-
-const btOk = document.getElementById("btOk");
-
-const outResultado = document.getElementById("outResultado");
-
+const inNomeContato = document.getElementById("inNomeContato");
+const inEnderecoContato = document.getElementById("inEnderecoContato");
+const inTelefoneContato = document.getElementById("inTelefoneContato");
+const inCpfContato = document.getElementById("inCpfContato");
+const inDataNascContato = document.getElementById("inDataNascContato");
+const inDescricaoGrupo = document.getElementById("inDescricaoGrupo");
 const selectOpcao = document.getElementById("selectOpcao");
+const outSaida = document.getElementById("outSaida");
+const btOk = document.getElementById("btOk");
+const table = document.querySelector(".table");
 
-const sectionResultado = document.querySelector(".sectionResultado");
+const agendaControl = new AgendaController();
+document.addEventListener("DOMContentLoaded", agendaControl.carregadorDados());
 
-const contatoController = new ContatoController(
-);
-
-document.addEventListener("DOMContentLoaded", contatoController.carregarContatos());
+btOk.addEventListener("click", executarFunc);
 
 selectOpcao.addEventListener("change", function () {
     let opcao = selectOpcao.value;
 
-    inNome.disabled = true;
-    inNome.placeholder = "";
-    inNome.value = "";
-    inDtNascimento.disabled = true;
-    inDtNascimento.placeholder = "";
-    inDtNascimento.value = "";
-    inCpf.disabled = true;
-    inCpf.placeholder = "";
-    inCpf.value = "";
-    inTelefone.disabled = true;
-    inTelefone.placeholder = "";
-    inTelefone.value = "";
-    inEndereço.disabled = true;
-    inEndereço.placeholder = "";
-    inEndereço.value = "";
-    outResultado.textContent = "";
-    sectionResultado.textContent = "";
-
     if (opcao != "") {
         verificarOpcao(opcao);
     }
+    btOk.disabled = false;
 });
 
+
 function verificarOpcao(opcao) {
-    inNome.disabled = false;
-    inNome.placeholder = "Digite um nome";
-    inNome.value = "";
+    inNomeContato.disabled = true;
+    inNomeContato.placeholder = "";
+    inNomeContato.value = "";
+
+    inEnderecoContato.disabled = true;
+    inEnderecoContato.placeholder = "";
+    inEnderecoContato.value = "";
+
+    inTelefoneContato.disabled = true;
+    inTelefoneContato.placeholder = "";
+    inTelefoneContato.value = "";
+
+    inCpfContato.disabled = true;
+    inCpfContato.placeholder = "";
+    inCpfContato.value = "";
+
+    inDataNascContato.disabled = true;
+    inDataNascContato.placeholder = "";
+    inDataNascContato.value = "";
+
+    inDescricaoGrupo.disabled = true;
+    inDescricaoGrupo.placeholder = "";
+    inDescricaoGrupo.value = "";
+
+    outSaida.innerHTML = "";
+
     switch (opcao) {
-        case "Cadastrar":
-            inEndereço.disabled = false;
-            inEndereço.placeholder = "Digite o Endereço do Contato";
-            inTelefone.disabled = false;
-            inTelefone.placeholder = "(DD)XXXXX-XXXX";
-            inCpf.disabled = false;
-            inCpf.placeholder = "XXX.XXX.XXX-XX";
-            inDtNascimento.disabled = false;
-            inDtNascimento.placeholder = "DD/MM/AAAA";
-            break;
-        case "Alterar":
-            inEndereço.disabled = false;
-            inEndereço.placeholder = "Digite o Endereço do Contato";
-            inTelefone.disabled = false;
-            inTelefone.placeholder = "(DD)XXXXX-XXXX";
-            inDtNascimento.disabled = false;
-            inDtNascimento.placeholder = "DD/MM/AAAA";
-            break;
-        case "ConsultarTelefone":
-            inNome.disabled = true;
-            inNome.placeholder = "";
-            inNome.value = "";
-            inTelefone.disabled = false;
-            inTelefone.placeholder = "Digite um telefone";
-            inTelefone.value = "";
+        case "Cadastrar-Contato":
+            inNomeContato.disabled = false;
+            inNomeContato.placeholder = "Insira o Nome";
+            inNomeContato.value = "";
+
+            inEnderecoContato.disabled = false;
+            inEnderecoContato.placeholder = "Insira o Endereço";
+            inEnderecoContato.value = "";
+
+            inTelefoneContato.disabled = false;
+            inTelefoneContato.placeholder = "(XX)XXXXX-XXXX";
+            inTelefoneContato.value = "";
+
+            inCpfContato.disabled = false;
+            inCpfContato.value = "";
+            inCpfContato.placeholder = "XXX.XXX.XXX-XX";
+
+            inDataNascContato.disabled = false;
+            inDataNascContato.placeholder = "DD/MM/AAAA";
+            inDataNascContato.value = "";
             break;
 
-        case "Listar":
-        case "ListarOrdenado":
-        case "Salvar":
-        case "Estatisticas":
-            inNome.disabled = true;
-            inNome.placeholder = "";
-            inNome.value = "";
-            inTelefone.disabled = true;
-            inTelefone.placeholder = "";
-            inTelefone.value = "";
-            inCpf.disabled = true;
-            inCpf.placeholder = "";
-            inCpf.value = "";
-            inDtNascimento.disabled = true;
-            inDtNascimento.placeholder = "";
-            inDtNascimento.value = "";
-            inEndereço.disabled = true;
-            inEndereço.placeholder = "";
-            inEndereço.value = "";
+        case "Excluir-Contato":
+        case "Exibir-Contato":
+            inNomeContato.disabled = false;
+            inNomeContato.placeholder = "Insira o Nome";
+            inNomeContato.value = "";
+            break;
+
+        case "Alterar-Endereco":
+            inNomeContato.disabled = false;
+            inNomeContato.placeholder = "Insira o Nome";
+            inNomeContato.value = "";
+            inEnderecoContato.disabled = false;
+            inEnderecoContato.placeholder = "Insira o Endereço";
+            inEnderecoContato.value = "";
+            break;
+
+        case "Alterar-Telefone":
+            inNomeContato.disabled = false;
+            inNomeContato.placeholder = "Insira o Nome";
+            inNomeContato.value = "";
+            inTelefoneContato.disabled = false;
+            inTelefoneContato.placeholder = "(XX)XXXXX-XXXX";
+            inTelefoneContato.value = "";
+            break;
+
+        case "Filtrar-Endereço":
+            inEnderecoContato.disabled = false;
+            inEnderecoContato.placeholder = "Insira o Endereço";
+            inEnderecoContato.value = "";
+            break;
+
+        case "Cadastrar-Grupo":
+        case "Excluir-Grupo":
+        case "Listar-Contatos-Grupo":
+            inDescricaoGrupo.disabled = false;
+            inDescricaoGrupo.placeholder = "Ex: Família, Amigos, Academia, Igreja...";
+            inDescricaoGrupo.value = "";
+            break;
+
+        case "Incluir-Contato-Grupo":
+        case "Excluir-Contato-Grupo":
+            inNomeContato.disabled = false;
+            inNomeContato.placeholder = "Insira o Nome";
+            inNomeContato.value = "";
+            inDescricaoGrupo.disabled = false;
+            inDescricaoGrupo.placeholder = "Ex: Família, Amigos, Academia, Igreja...";
+            inDescricaoGrupo.value = "";
             break;
     }
 }
 
-btOk.addEventListener("click", executarFunc);
+
 function executarFunc() {
-    let opcao = selectOpcao.value;
-    let descNome = (inNome.value);
-    let descEndereco = (inEndereço.value);
-    let descTelefone = (inTelefone.value);
-    let descCpf = (inCpf.value);
-    let dtNascimento = (inDtNascimento.value);
 
-    let contatoAux;
+    let opcao = selectOpcao.value;
+
+    outSaida.innerHTML = "";
+    table.innerHTML = "";
 
     switch (opcao) {
-        case "Cadastrar":
-            if (descNome == "") {
-                outResultado.style.color = "red";
-                outResultado.textContent = "Para acrescentar Contato novo, ao menos o campo Nome deve ser preenchido!";
-                inNome.focus();
+        case "Cadastrar-Contato":
+            if (inNomeContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Nome Vazio";
+                inNomeContato.focus();
+            } else if (inCpfContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo CPF Vazio";
+                inCpfContato.focus();
+            } else if (inDataNascContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Data Nascimento Vazio";
+                inDataNascContato.focus();
             } else {
-                if (contatoController.cadastrarContato(descNome, descEndereco, descTelefone, descCpf, dtNascimento) == true) {
-                    outResultado.style.color = "blue";
-                    outResultado.textContent = "O novo Contato foi acrescentado com sucesso!";
+                if (agendaControl.cadastrarContato(inNomeContato.value, inTelefoneContato.value, inEnderecoContato.value, inCpfContato.value, inDataNascContato.value)) {
+                    outSaida.style.color = "blue";
+                    outSaida.innerHTML = "Contato Cadastrado!";
 
                 } else {
-                    outResultado.style.color = "red";
-                    outResultado.textContent = `Erro! Já existe um Contato com o Nome ${descNome} ou Telefone ${descTelefone}!`;
-                    inNome.focus();
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "Erro! o Contato Já Existe!";
                 }
             }
             break;
 
-        case "Excluir":
-            if (contatoController.excluirContato(descNome) == true) {
-                outResultado.style.color = "blue";
-                outResultado.textContent = "O Contato foi excluido com sucesso!";
+        case "Excluir-Contato":
+            if (inNomeContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Nome Vazio!";
+                inNomeContato.focus()
             } else {
-                outResultado.style.color = "red";
-                outResultado.textContent = "Erro! O Contato " + descNome + " não foi excluido!";
-                inNome.focus();
-            }
-            break;
 
-        case "Alterar":
-            contatoAux = contatoController.pesquisarContatoNome(descNome);
-
-            if (contatoAux != undefined) {
-
-                descEndereco = (descEndereco != "") ? descEndereco : contatoAux.address;
-                descTelefone = (descTelefone != "") ? descTelefone : contatoAux.phone;
-                dtNascimento = (dtNascimento != "") ? dtNascimento : contatoAux.birthDay;
-
-                contatoAux = contatoController.alterarContato(descNome, descEndereco, descTelefone, dtNascimento);
-
-                if (contatoAux != undefined) {
-                    outResultado.style.color = "blue";
-                    outResultado.textContent = "O Contato foi alterado com sucesso!";
+                if (agendaControl.excluirContato(inNomeContato.value)) {
+                    outSaida.style.color = "blue";
+                    outSaida.innerHTML = "Contato Excluido com Sucesso!";
                 } else {
-                    outResultado.style.color = "red";
-                    outResultado.textContent = "Erro! O Telefone " + descTelefone + " está cadastrado em outro contato!";
-                    inTelefone.focus();
-                }
-            } else {
-                outResultado.style.color = "red";
-                outResultado.textContent = "Erro! O Contato " + descNome + " não foi encontrado!";
-                inNome.focus();
-            }
-            break;
-
-        case "ConsultarDados":
-            contatoAux = contatoController.pesquisarContatoNome(descNome);
-
-            if (contatoAux != undefined) {
-                outResultado.style.color = "blue";
-                outResultado.textContent = contatoAux.toString();
-            } else {
-                outResultado.style.color = "red";
-                outResultado.textContent = "Não foi encontrato contato com o nome informado!";
-            }
-            break;
-
-        case "ConsultarTelefone":
-            if (descTelefone == "") {
-                outResultado.style.color = "red";
-                outResultado.textContent = "Erro! Digite um telefone para consultar!";
-                inTelefone.focus();
-            } else {
-                contatoAux = contatoController.pesquisarContatoTelefone(descTelefone);
-
-                if (contatoAux != undefined) {
-                    outResultado.style.color = "blue";
-                    outResultado.textContent = contatoAux.toString();
-                } else {
-                    outResultado.style.color = "red";
-                    outResultado.textContent = "Não foi encontrado contato com o telefone informado!";
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "Contato não encontrado!";
                 }
             }
             break;
 
-        case "Listar":
-        case "ListarOrdenado":
-            let htmlTable = contatoController.criarTableContatosHtml(opcao == "ListarOrdenado");
-            if (htmlTable != undefined) {
-                sectionResultado.innerHTML = "";
-                sectionResultado.appendChild(htmlTable);
+        case "Alterar-Endereco":
+            if (inNomeContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Nome Vazio!";
+                inNomeContato.focus()
+            } else if (inEnderecoContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Endereço Vazio!";
+                inEnderecoContato.focus();
             } else {
-                outResultado.style.color = "red";
-                outResultado.textContent = "Erro!";
-                sectionResultado.innerHTML = "";
+                if (agendaControl.alterarEndereco(inNomeContato.value, inEnderecoContato.value)) {
+
+                    outSaida.style.color = "blue";
+                    outSaida.innerHTML = "Endereço Alterado com Sucesso!";
+
+                } else {
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "O Contato Não existe!";
+                }
             }
             break;
 
-        case "Estatisticas":
-            let estatisticas = contatoController.obterEstatisticas();
-            outResultado.style.color = "blue";
-            outResultado.textContent =
-                "• Total de contatos cadastrados: " + estatisticas.total + "\n" +
-                "• Quantos contatos possuem CPF informado: " + estatisticas.contatosComCpf + "\n" +
-                "• Quantos contatos não possuem CPF informado: " + estatisticas.contatosSemCpf;
+        case "Alterar-Telefone":
+            if (inNomeContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Nome Vazio!";
+                inNomeContato.focus()
+            } else if (inTelefoneContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Telefone Vazio!";
+                inTelefoneContato.focus();
+            } else {
+                if (agendaControl.alterarTelefone(inNomeContato.value, inTelefoneContato.value)) {
+
+                    outSaida.style.color = "blue";
+                    outSaida.innerHTML = "Telefone Alterado com Sucesso!";
+
+                } else {
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "O Contato Não existe ou Telefone em formato inválido (XX) XXXXX-XXXX!";
+                }
+            }
+            break;
+
+        case "Exibir-Contato":
+            if (inNomeContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Nome Vazio!";
+                inNomeContato.focus()
+            } else {
+                let objLiteralContato = agendaControl.consultarContato(inNomeContato.value);
+                if (objLiteralContato != undefined) {
+                    outSaida.style.color = "blue";
+                    outSaida.innerHTML =
+                        `Nome: ${objLiteralContato.nome}` +
+                        `\nTelefone: ${objLiteralContato.telefone}` +
+                        `\nEndereço: ${objLiteralContato.endereco}` +
+                        `\nCPF: ${objLiteralContato.cpf}` +
+                        `\nData de Nascimento: ${objLiteralContato.dataNasc}`;
+                }
+                else {
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "O Contato não existe!";
+                }
+            }
+            break;
+
+        case "Filtrar-Endereço":
+            if (inEnderecoContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Endereço Vazio!";
+                inEnderecoContato.focus();
+            } else {
+
+                let vetObjetosLiteraisContato = agendaControl.filtrarEndereco(inEnderecoContato.value);
+
+                if (vetObjetosLiteraisContato.length > 0) {
+                    table.appendChild(gerarTabelaHtmlContatos(vetObjetosLiteraisContato));
+                } else {
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "Nenhum Contato com o Endereço informado!";
+                }
+            }
+            break;
+
+        case "Listar-Contatos":
+
+            let vetObjetosLiteraisContato = agendaControl.listarContatos();
+
+            if (vetObjetosLiteraisContato.length > 0) {
+                table.appendChild(gerarTabelaHtmlContatos(vetObjetosLiteraisContato));
+            } else {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Nenhum Contato Cadastrado!";
+            }
+            break;
+        case "Cadastrar-Grupo":
+            if (inDescricaoGrupo.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Descrição do Grupo Vazio!";
+                inDescricaoGrupo.focus();
+            } else {
+                if (agendaControl.cadastrarGrupo(inDescricaoGrupo.value)) {
+                    outSaida.style.color = "blue";
+                    outSaida.innerHTML = "Grupo Cadastrado!";
+
+                } else {
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "Erro! O Grupo já existe!";
+                }
+            }
+            break;
+
+        case "Excluir-Grupo":
+            if (inDescricaoGrupo.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Descrição do Grupo Vazio!";
+                inDescricaoGrupo.focus();
+            } else {
+                if (agendaControl.excluirGrupo(inDescricaoGrupo.value)) {
+                    outSaida.style.color = "blue";
+                    outSaida.innerHTML = "Grupo Excluído com Sucesso!";
+                } else {
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "Não existe Grupo com a descrição informada!";
+                }
+            }
+            break;
+
+        case "Incluir-Contato-Grupo":
+            if (inNomeContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Nome Vazio!";
+                inNomeContato.focus()
+            } else if (inDescricaoGrupo.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Descrição do Grupo Vazio!";
+                inDescricaoGrupo.focus();
+            } else {
+                const mensagens = {
+                    "SUCESSO": { cor: "blue", texto: "Sucesso! Contato incluído no Grupo." },
+                    "CONTATO_JA_NO_GRUPO": { cor: "red", texto: "Falha! Contato já estava incluído no Grupo." },
+                    "GRUPO_NAO_ENCONTRADO": { cor: "red", texto: "Falha! Não existe Grupo com a descrição informada." },
+                    "CONTATO_NAO_ENCONTRADO": { cor: "red", texto: "Falha! Não existe Contato com o nome informado." }
+                };
+                let resultado = agendaControl.incluirContatoGrupo(inNomeContato.value, inDescricaoGrupo.value);
+                outSaida.style.color = mensagens[resultado].cor;
+                outSaida.innerHTML = mensagens[resultado].texto;
+            }
+            break;
+
+        case "Excluir-Contato-Grupo":
+            if (inNomeContato.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Nome Vazio!";
+                inNomeContato.focus()
+            } else if (inDescricaoGrupo.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Descrição do Grupo Vazio!";
+                inDescricaoGrupo.focus();
+            } else {
+                const mensagens = {
+                    "SUCESSO": { cor: "blue", texto: "Sucesso! Contato excluído no Grupo." },
+                    "CONTATO_NAO_ESTA_NO_GRUPO": { cor: "red", texto: "Falha! Contato não está incluído no Grupo!" },
+                    "GRUPO_NAO_ENCONTRADO": { cor: "red", texto: "Falha! Não existe Grupo com a descrição informada." },
+                    "CONTATO_NAO_ENCONTRADO": { cor: "red", texto: "Falha! Não existe Contato com o nome informado." }
+                };
+                let resultado = agendaControl.excluirContatoGrupo(inNomeContato.value, inDescricaoGrupo.value);
+                outSaida.style.color = mensagens[resultado].cor;
+                outSaida.innerHTML = mensagens[resultado].texto;
+            }
+            break;
+
+        case "Listar-Contatos-Grupo":
+            if (inDescricaoGrupo.value == "") {
+                outSaida.style.color = "red";
+                outSaida.innerHTML = "Campo Descrição do Grupo Vazio!";
+                inDescricaoGrupo.focus();
+            } else {
+                let vetObjetosLiteraisContato = agendaControl.listarContatosGrupo(inDescricaoGrupo.value);
+                if (vetObjetosLiteraisContato.length > 0) {
+                    table.appendChild(gerarTabelaHtmlContatos(vetObjetosLiteraisContato));
+                } else {
+                    outSaida.style.color = "red";
+                    outSaida.innerHTML = "Não existe Grupo com a descrição informada ou o Grupo não possui contatos!";
+                }
+            }
             break;
 
         case "Salvar":
-            if (contatoController.salvarContatos() == true) {
-                outResultado.style.color = "blue";
-                outResultado.textContent = "Sucesso ao Salvar Lista de Contatos!";
-            } else {
-                outResultado.style.color = "red";
-                outResultado.textContent = "Erro! Contatos não Salvos no Arquivo!";;
-            }
+            agendaControl.salvarLocalStorage();
             break;
-
-        default:
-            alert("Faltou selecionar uma opção de funcionalidade!");
     }
 }
 
+function gerarTabelaHtmlContatos(vetObjLiteraisContato) {
+    /* Gera uma tabela HTML com os contatos do vetor passado como parâmetro.
+       Retorna o elemento <table>.
+    */
+    let table = document.createElement("table");
+    let thead = document.createElement("thead");
+    let tbody = document.createElement("tbody");
 
+    thead.appendChild(document.createElement("th")).innerHTML = "Nome";
+    thead.appendChild(document.createElement("th")).innerHTML = "Telefone";
+    thead.appendChild(document.createElement("th")).innerHTML = "Endereço";
+    thead.appendChild(document.createElement("th")).innerHTML = "CPF";
+    thead.appendChild(document.createElement("th")).innerHTML = "Data Nasc.";
+
+    table.appendChild(thead);
+
+    vetObjLiteraisContato.forEach((objLitContato) => {
+        let linha = document.createElement("tr");
+
+        let tdNome = document.createElement("td");
+        let tdTel = document.createElement("td");
+        let tdEndereco = document.createElement("td");
+        let tdCPF = document.createElement("td");
+        let tdNasc = document.createElement("td");
+
+        tdNome.innerHTML = objLitContato.nome;
+        tdTel.innerHTML = objLitContato.telefone;
+        tdEndereco.innerHTML = objLitContato.endereco;
+        tdCPF.innerHTML = objLitContato.cpf;
+        tdNasc.innerHTML = objLitContato.dataNasc;
+
+        linha.appendChild(tdNome);
+        linha.appendChild(tdTel);
+        linha.appendChild(tdEndereco);
+        linha.appendChild(tdCPF);
+        linha.appendChild(tdNasc);
+
+        tbody.appendChild(linha);
+    });
+
+    table.appendChild(tbody);
+
+    return table;
+}
