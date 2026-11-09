@@ -34,7 +34,7 @@ console.log ("\n" + poup2);
 */
 poup2.sacar(200.00);
 console.log ("\n\nExecutado o Saque na Poupança 2." +
-             "\nSaldo da Poupança 2 = R$" + poup2.saldo.toFixed(2));
+             "\nSaldo da Poupança 2 = R$" + Number(poup2.saldo).toFixed(2));
 
 /*Efetuar Transferência do objeto poup1 para o poup2 e mostrar seus saldos alterados.
   OBS: Como a classe Poupanca não possui o método transferir, nem get saldo,
@@ -43,8 +43,8 @@ console.log ("\n\nExecutado o Saque na Poupança 2." +
 let valorTransf = 600.00;
 poup1.transferir(valorTransf, poup2);
 console.log ("\n\nExecutada a Transferência de Poupança 1 para Poupança 2." +
-             "\nSaldo da Poupança 1 = R$" + poup1.saldo.toFixed(2) +
-             "\nSaldo da Poupança 2 = R$" + poup2.saldo.toFixed(2));
+             "\nSaldo da Poupança 1 = R$" + Number(poup1.saldo).toFixed(2) +
+             "\nSaldo da Poupança 2 = R$" + Number(poup2.saldo).toFixed(2));
 
 /*Efetuar Alteração de Titular do objeto poup2 e mostrar seus dados alterados.
   OBS: Como a classe Poupanca não possui o método set titular,
